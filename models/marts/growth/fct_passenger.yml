@@ -1,0 +1,46 @@
+version: 2
+
+models:
+  - name: fct_passenger
+    description: "Fact table containing passenger information."
+    columns:
+      - name: passenger_id
+        description: "Unique identifier for each passenger."
+        tests:
+          - not_null
+      - name: aggregation_date
+        description: "Date of aggregation for the fact table."
+        tests:
+          - not_null
+      - name: aggregation_level
+        description: "Level of aggregation for the fact table (e.g., daily, monthly)."
+        tests:
+          - not_null
+      - name: booked_trip_count
+        description: "Number of trips booked by the passenger."
+        tests:
+          - not_null
+      - name: booked_spend_eur
+        description: "Total amount spent by the passenger in Euros."
+        tests:
+          - not_null
+      - name: finished_trip_count
+        description: "Number of trips completed by the passenger."
+        tests:
+          - not_null
+      - name: finished_spend_eur
+        description: "Total amount spent by the passenger on completed trips in Euros."
+        tests:
+          - not_null
+      - name: cancelled_trip_count
+        description: "Number of trips cancelled by the passenger."
+        tests:
+          - not_null
+      - name: cancelled_spend_eur
+        description: "Total amount spent by the passenger on cancelled trips in Euros."
+        tests:
+          - not_null
+      - name: mean_flight_duration
+        description: "Average duration of flights taken by the passenger."
+        tests:
+          - not_null

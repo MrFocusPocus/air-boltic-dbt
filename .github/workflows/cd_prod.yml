@@ -11,9 +11,9 @@ jobs:
     runs-on: macos-latest
 
     env:
-      DBT_ACCOUNT_ID: 188483
-      DBT_PROJECT_ID: 283328
-      DBT_PR_JOB_ID: 409009
+      DBT_ACCOUNT_ID: 123456
+      DBT_PROJECT_ID: 456789
+      DBT_PR_JOB_ID: 789123
       DBT_API_KEY: ${{ secrets.DBT_CLOUD_API_KEY }}
       DBT_JOB_CAUSE: "GitHub Actions Request"
       DBT_JOB_BRANCH: main
@@ -35,10 +35,10 @@ jobs:
     runs-on: macos-latest
 
     env:
-      DBT_ACCOUNT_ID: 188483
-      DBT_PROJECT_ID: 275557
-      DBT_PR_JOB_ID: 553247
+      DBT_ACCOUNT_ID: 123456
+      DBT_PROJECT_ID: 456789
       DBT_API_KEY: ${{ secrets.DBT_CLOUD_API_KEY }}
+      DBT_PR_JOB_ID: 789123
       DBT_JOB_CAUSE: "GitHub Actions Request"
       DBT_JOB_BRANCH: main
 
@@ -59,9 +59,9 @@ jobs:
     runs-on: macos-latest
 
     env:
-      DBT_ACCOUNT_ID: 188483
-      DBT_PROJECT_ID: 288405
-      DBT_PR_JOB_ID: 577871
+      DBT_ACCOUNT_ID: 123456
+      DBT_PROJECT_ID: 456789
+      DBT_PR_JOB_ID: 789123
       DBT_API_KEY: ${{ secrets.DBT_CLOUD_API_KEY }}
       DBT_JOB_CAUSE: "GitHub Actions Request"
       DBT_JOB_BRANCH: main
