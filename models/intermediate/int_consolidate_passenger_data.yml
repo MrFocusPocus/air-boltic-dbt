@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: int_consolidate_passenger_data
+    description: Consolidates passenger data from multiple sources for further analysis.
+    columns:
+      - name: passenger_id
+        description: Unique identifier for each passenger.
+        tests:
+          - not_null
+          - unique
+      - name: passenger_name
+        description: Passenger's full name.
+      - name: customer_group_id
+        description: Identifier for the customer group to which the passenger belongs.
+      - name: customer_email
+        description: Passenger's email address.
+      - name: phone_number
+        description: Passenger's phone number.
+      - name: customer_group_type
+        description: Type of the customer group to which the passenger belongs (e.g., individual, enterprise).
+      - name: customer_group_name
+        description: Name of the customer group to which the passenger belongs.
+      - name: customer_group_registry_number
+        description: Registry number of the customer group, if applicable.

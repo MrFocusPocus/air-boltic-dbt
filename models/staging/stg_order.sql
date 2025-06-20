@@ -2,7 +2,7 @@ with
 
 source as (
 
-    select * from {{ source('ecom', 'raw_orders') }}
+    select * from {{ source('air_boltic_data', 'raw_orders') }}
 
 ),
 
@@ -11,20 +11,16 @@ renamed as (
     select
 
         ----------  ids
-        id as order_id,
-        store_id as location_id,
-        customer as customer_id,
+        order_id,
+        customer_id,
+        trip_id,
 
         ---------- numerics
-        subtotal as subtotal_cents,
-        tax_paid as tax_paid_cents,
-        order_total as order_total_cents,
-        {{ cents_to_dollars('subtotal') }} as subtotal,
-        {{ cents_to_dollars('tax_paid') }} as tax_paid,
-        {{ cents_to_dollars('order_total') }} as order_total,
+        price_eur,
 
-        ---------- timestamps
-        {{ dbt.date_trunc('day','ordered_at') }} as ordered_at
+        ---------- text
+        seat_no as seat_number,
+        status as order_status,
 
     from source
 

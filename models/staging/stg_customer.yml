@@ -7,3 +7,11 @@ models:
         data_tests:
           - not_null
           - unique
+      - name: customer_name
+        description: The name of the customer.
+      - name: customer_group_id
+        description: The ID of the customer group to which the customer belongs.
+      - name: customer_email
+        description: The email address of the customer.
+      - name: customer_phone_number
+        description: The phone number of the customer.

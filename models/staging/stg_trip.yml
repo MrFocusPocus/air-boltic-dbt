@@ -1,0 +1,19 @@
+models:
+  - name: stg_trip
+    description: Order data with basic cleaning and transformation applied, one row per order.
+    columns:
+      - name: trip_id
+        description: The unique key for each trip.
+        data_tests:
+          - not_null
+          - unique
+      - name: airplane_id
+        description: The ID of the aeroplane used for the trip.
+      - name: origin_city
+        description: The city where the trip originated.
+      - name: destination_city
+        description: The city where the trip ended.
+      - name: start_timestamp
+        description: The timestamp when the trip started.
+      - name: end_timestamp
+        description: The timestamp when the trip ended.

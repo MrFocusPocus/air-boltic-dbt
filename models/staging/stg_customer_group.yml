@@ -1,0 +1,17 @@
+version: 2
+
+models:
+  - name: stg_customer_group
+    description: Staging model for customer group data.
+    columns:
+      - name: customer_group_id
+        description: Unique identifier for the customer group.
+        tests:
+          - not_null
+          - unique
+      - name: customer_group_type
+        description: Type of the customer group (e.g., individual, business).
+      - name: customer_group_name
+        description: Name of the customer group.
+      - name: customer_group_registry_number
+        description: Registry number of the customer group, if applicable.
