@@ -1,20 +1,19 @@
 version: 2
 
 sources:
-  - name: ecom
+  - name: air_boltic_data
     schema: raw
-    description: E-commerce data for the Jaffle Shop
+    description: Air Boltic provided data for the dbt project.
     tables:
-      - name: raw_customers
-        description: One record per person who has purchased one or more items
-      - name: raw_orders
-        description: One record per order (consisting of one or more order items)
-        loaded_at_field: ordered_at
-      - name: raw_items
-        description: Items included in an order
-      - name: raw_stores
-        loaded_at_field: opened_at
-      - name: raw_products
-        description: One record per SKU for items sold in stores
-      - name: raw_supplies
-        description: One record per supply per SKU of items sold in stores
+      - name: raw_aeroplane_model
+        description: specification of aeroplanes.
+      - name: raw_aeroplane
+        description: aeroplanes used by Air Boltic.
+      - name: raw_customer_group
+        description: customer groups used by Air Boltic.
+      - name: raw_customer
+        description: customers of Air Boltic.
+      - name: raw_order
+        description: orders used by Air Boltic. 1 row is equivalent to 1 seat on a trip for a customer.
+      - name: raw_trip
+        description: trips used by Air Boltic. 1 row is equivalent to 1 one-way trip from point A to point B.
