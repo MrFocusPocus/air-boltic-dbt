@@ -1,0 +1,372 @@
+erDiagram
+
+    %% Intermediate Relationship to Mart
+    DIM_MARKET ||--|| INT_CONSOLIDATE_MARKET_DATA : has
+    DIM_AIRCRAFT ||--|| INT_CONSOLIDATE_AIRCRAFT_DATA : has
+    DIM_PASSENGER ||--|| INT_CONSOLIDATE_PASSENGER_DATA : has
+    DIM_ROUTE ||--|| INT_GET_ROUTE : has
+    FCT_ROUTE ||--|| INT_CALCULATE_ROUTE_KPI : haS
+    FCT_CAPACITY ||--|| INT_CONSOLIDATE_AIRCRAFT_DATA : has
+    FCT_PLATFORM ||--|| INT_CONSOLIDATE_MARKET_DATA : has
+
+    %% Staging Relationship to Mart
+    FCT_ORDER ||--|| STG_ORDER : has
+    FCT_TRIP ||--|| STG_TRIP : has
+    FCT_PASSENGER ||--|| STG_ORDER : has
+    FCT_PASSENGER ||--|| STG_TRIP : has
+    FCT_AIRCRAFT ||--|| STG_ORDER : has
+    FCT_AIRCRAFT ||--|| STG_TRIP : has
+    FCT_CAPACITY ||--|| STG_ORDER : has
+    FCT_CAPACITY ||--|| STG_TRIP : has
+    FCT_PLATFORM ||--|| STG_ORDER : has
+    FCT_PLATFORM ||--|| STG_TRIP : has
+
+    %% Mart Layer
+    classDef mart_layer fill:#45a571,stroke:#0c2c1c
+
+    %% Growth Domain
+    DIM_PASSENGER:::mart_layer {
+        int customer_id PK
+        str name
+        int customer_group_id FK
+        str email
+        str phone_number
+        str customer_group_type
+        str customer_group_name
+        str customer_group_registry_number
+    }
+
+    FCT_PASSENGER:::mart_layer {
+        int customer_id
+        date aggregation_date
+        string aggregation_level
+        int booked_trip_count
+        int booked_spend_eur
+        int finished_trip_count
+        int finished_spend_eur
+        int cancelled_trip_count
+        int cancelled_spend_eur
+        decimal mean_flight_duration
+    }
+
+    FCT_ORDER:::mart_layer {
+        int order_id PK
+        int customer_id FK
+        int trip_id FK
+        int price_eur
+        str seat_no
+        str status
+    }
+    
+    %% Performance Domain
+    FCT_TRIP:::mart_layer {
+        int trip_id PK
+        str origin_city
+        str destination_city
+        int airplane_id FK
+        timestamp start_timestamp
+        timestamp end_timestamp
+    }
+    
+    FCT_ROUTE:::mart_layer {
+        int route_id
+        date aggregation_date
+        string aggregation_level
+        int trip_count
+        int total_duration_seconds
+        decimal mean_duration_seconds
+    }
+
+    DIM_ROUTE:::mart_layer {
+        int route_id
+        str origin_city
+        str destination_city
+    }
+
+    FCT_CAPACITY:::mart_layer {
+        date aggregation_date
+        string aggregation_level
+        int total_aircrafts
+        int aircrafts_on_trip_count
+        int total_seat_count
+        int ocupied_seat_count
+        int empty_seat_count
+        decimal aircraft_on_trip_rate
+        decimal seat_ocupancy_rate
+    }
+
+    FCT_AIRCRAFT:::mart_layer {
+        int airplane_id
+        date aggregation_date
+        string aggregation_level
+        int trip_count
+        int total_spend_eur
+        int mean_passenger_count
+        int mean_empty_seat_count
+        int mean_ocupancy
+        int mean_passenger_spend_eur
+        decimal mean_flight_duration
+    }
+
+    DIM_AIRCRAFT:::mart_layer {
+        int airplane_id PK
+        str airplane_model
+        str manufacturer
+        int max_seats
+        int max_weight
+        int max_distance
+        str engine_type
+    }
+
+    %% Strategy Domain
+    FCT_PLATFORM:::mart_layer {
+        date aggregation_date
+        string aggregation_level
+        int market_id
+        date passenger_cohort_date
+        int total_passenger_spend
+        int total_trip_count
+    }
+
+    DIM_MARKET:::mart_layer {
+        int market_id PK
+        str region_name
+        str country_name
+        str city_name
+    }
+
+    %% Intermediate Relationship to Intermediate
+    INT_CALCULATE_ROUTE_KPI ||--|| INT_GET_ROUTE : has
+
+    %% Staging Relationship to Intermediate
+    INT_CONSOLIDATE_MARKET_DATA }|--|| STG_REGION : has
+    INT_CONSOLIDATE_MARKET_DATA }|--|| STG_COUNTRY : has
+    INT_CONSOLIDATE_MARKET_DATA ||--|| STG_CITY : has
+
+    INT_CONSOLIDATE_AIRCRAFT_DATA ||--|| STG_AEROPLANE : has
+    INT_CONSOLIDATE_AIRCRAFT_DATA ||--o{ STG_AEROPLANE_MODEL : has
+
+    INT_CONSOLIDATE_PASSENGER_DATA ||--|| STG_CUSTOMER : has
+    INT_CONSOLIDATE_PASSENGER_DATA ||--o{ STG_CUSTOMER_GROUP : has
+
+    INT_CALCULATE_ROUTE_KPI ||--|| STG_TRIP : has
+
+    %% Intermediate Layer
+    classDef intermediate_layer fill:#81c09a,stroke:#0c2c1c
+
+    INT_CONSOLIDATE_MARKET_DATA:::intermediate_layer {
+        int market_id PK
+        int region_id FK
+        str region_name
+        int country_id FK
+        str country_name
+        int city_id FK
+        str city_name
+    }
+
+    INT_CONSOLIDATE_AIRCRAFT_DATA:::intermediate_layer {
+        int airplane_id PK
+        str airplane_model
+        str manufacturer
+        int max_seats
+        int max_weight
+        int max_distance
+        str engine_type
+    }
+
+    INT_CONSOLIDATE_PASSENGER_DATA:::intermediate_layer {
+        int customer_id PK
+        str name
+        int customer_group_id FK
+        str email
+        str phone_number
+        str customer_group_type
+        str customer_group_name
+        str customer_group_registry_number
+    }
+
+    INT_GET_ROUTE:::intermediate_layer {
+        int route_id
+        str origin_city
+        str destination_city
+    }
+
+    INT_CALCULATE_ROUTE_KPI:::intermediate_layer {
+        int route_id
+        date aggregation_date
+        string aggregation_level
+        int trip_count
+        int total_duration_seconds
+        decimal mean_duration_seconds
+    }
+
+
+    %% Source & Seed Relationship to Staging
+    STG_AEROPLANE_MODEL ||--|| SEED_AEROPLANE_MODEL : has
+    SEED_AEROPLANE_MODEL ||--|| CSV_AEROPLANE_MODEL : has
+    CSV_AEROPLANE_MODEL ||--|| JSON_AEROPLANE_MODEL : has
+    
+    STG_CUSTOMER ||--|| SRC_CUSTOMER : has
+    STG_CUSTOMER_GROUP ||--|| SRC_CUSTOMER_GROUP : has
+    STG_AEROPLANE ||--|| SRC_AEROPLANE : has
+    STG_TRIP ||--|| SRC_TRIP : has
+    STG_ORDER ||--|| SRC_ORDER : has
+
+    STG_REGION ||--|| SRC_REGION : has
+    STG_COUNTRY ||--|| SRC_COUNTRY : has
+    STG_CITY ||--|| SRC_CITY : has
+    
+    %% Staging Layer
+    classDef staging_layer fill:#a6d2b6,stroke:#0c2c1c
+
+    STG_AEROPLANE_MODEL:::staging_layer {
+        str manufacturer
+        str model
+        int max_seats
+        int max_weight
+        int max_distance
+        str engine_type
+    }
+
+    STG_CUSTOMER:::staging_layer {
+        int customer_id PK
+        str name
+        int customer_group_id FK
+        str email
+        str phone_number
+    }
+
+    STG_CUSTOMER_GROUP:::staging_layer {
+        int customer_group_id PK
+        str customer_group_type
+        str customer_group_name
+        str customer_group_registry_number
+    }
+
+    STG_AEROPLANE:::staging_layer {
+        int airplane_id PK
+        str airplane_model
+        str manufacturer
+    }
+
+    STG_TRIP:::staging_layer {
+        int trip_id PK
+        str origin_city
+        str destination_city
+        int airplane_id FK
+        timestamp start_timestamp
+        timestamp end_timestamp
+    }
+
+    STG_ORDER:::staging_layer {
+        int order_id PK
+        int customer_id FK
+        int trip_id FK
+        int price_eur
+        str seat_no
+        str status
+    }
+
+    STG_REGION:::staging_layer {
+        int region_id PK
+        str region_name
+    }
+
+    STG_COUNTRY:::staging_layer {
+        int country_id PK
+        int region_name FK
+        str country_name
+    }
+
+    STG_CITY:::staging_layer {
+        int city_id PK
+        int country_id FK
+        str region_name
+    }
+
+
+    %% Seeds Layer & Sources Layer
+    classDef seed_source_layer fill:#dbede1,stroke:#0c2c1c
+
+    JSON_AEROPLANE_MODEL:::seed_source_layer {
+        str manufacturer
+        str model
+        int max_seats
+        int max_weight
+        int max_distance
+        str engine_type
+    }
+
+    CSV_AEROPLANE_MODEL:::seed_source_layer {
+        str manufacturer
+        str model
+        int max_seats
+        int max_weight
+        int max_distance
+        str engine_type
+    }
+
+    SEED_AEROPLANE_MODEL:::seed_source_layer {
+        str manufacturer
+        str model
+        int max_seats
+        int max_weight
+        int max_distance
+        str engine_type
+    }
+
+    SRC_REGION:::seed_source_layer {
+        int region_id PK
+        str region_name
+    }
+
+    SRC_COUNTRY:::seed_source_layer {
+        int country_id PK
+        int region_name FK
+        str country_name
+    }
+
+    SRC_CITY:::seed_source_layer {
+        int city_id PK
+        int country_id FK
+        str region_name
+    }
+
+    SRC_CUSTOMER:::seed_source_layer {
+        int customer_id PK
+        str name
+        int customer_group_id FK
+        str email
+        str phone_number
+    }
+
+    SRC_CUSTOMER_GROUP:::seed_source_layer {
+        int id PK
+        str type
+        str name
+        str registry_number
+    }
+
+    SRC_AEROPLANE:::seed_source_layer {
+        int airplane_id PK
+        str airplane_model
+        str manufacturer
+    }
+
+    SRC_TRIP:::seed_source_layer {
+        int trip_id PK
+        str origin_city
+        str destination_city
+        int airplane_id FK
+        timestamp start_timestamp
+        timestamp end_timestamp
+    }
+
+    SRC_ORDER:::seed_source_layer {
+        int order_id PK
+        int customer_id FK
+        int trip_id FK
+        int price_eur
+        str seat_no
+        str status
+    }
