@@ -68,12 +68,12 @@ The data models will be implemented using **dbt**, following the standard layere
 
 ### **Sources and Seeds Layer**
 
-* **`SRC_ORDER`** \- Raw purchase data linking passengers to trips.  
-* **`SRC_TRIP`** \- Raw flight data with details such as schedule, aircraft, and airports.  
-* **`SRC_CUSTOMER`** \- Basic user information for passengers.  
-* **`SRC_CUSTOMER_GROUP`** \- Links customers to group or organizational structures.  
-* **`SRC_AEROPLANE`** \- Raw records for aircraft identifiers, model, and manufacturer.  
-* **`SEED_AEROPLANE_MODEL`** \- Static reference table for aircraft model specs (e.g., capacity, manufacturer, maximum distance).
+* **SRC_ORDER** \- Raw purchase data linking passengers to trips.  
+* **SRC_TRIP** \- Raw flight data with details such as schedule, aircraft, and airports.  
+* **SRC_CUSTOMER** \- Basic user information for passengers.  
+* **SRC_CUSTOMER_GROUP** \- Links customers to group or organizational structures.  
+* **SRC_AEROPLANE** \- Raw records for aircraft identifiers, model, and manufacturer.  
+* **SEED_AEROPLANE_MODEL** \- Static reference table for aircraft model specs (e.g., capacity, manufacturer, maximum distance).
 
 ### **Entity Relationship Diagram**
 
